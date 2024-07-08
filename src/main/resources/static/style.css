@@ -1,0 +1,144 @@
+/* styles.css */
+
+/* Body styles */
+body {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; /* Set default font family */
+    color: #333; /* Set default text color */
+}
+
+/* Form styles */
+.form-container {
+    max-width: 600px;
+    margin: 50px auto; /* Center the form container */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.shorter-input {
+    /* Adjust height or padding to make input field shorter */
+    height: 40px;
+}
+
+.custom-button {
+    /* Customize button appearance */
+    background-color: #007bff; /* Set button background color */
+    color: #fff; /* Set button text color */
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    margin-top: 10px; /* Add space between buttons */
+}
+
+.custom-button:hover {
+    background-color: #0056b3; /* Darker background color on hover */
+}
+
+/* Result section styles */
+.result-section {
+    margin-top: 50px;
+}
+
+.result-box {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.result-box h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #007bff; /* Set result title color */
+}
+
+.result-item {
+    margin-bottom: 15px;
+}
+
+.result-item label {
+    font-weight: bold;
+}
+
+/* Particle section styles */
+.particles-section {
+    margin-top: 30px;
+}
+
+.particle-info {
+    background-color: #f8f9fa; /* Set background color */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px; /* Add space between particle information */
+}
+
+.particle-info p {
+    margin: 0;
+}
+
+.healthy {
+    color: green; /* Set color for healthy particles */
+}
+
+.unhealthy {
+    color: red; /* Set color for unhealthy particles */
+}
+
+/* Hourly forecast section styles */
+.forecast-section .sun-icon {
+    width: 50px; /* Set a fixed width for the sun icons */
+    height: 50px; /* Set a fixed height for the sun icons */
+}
+
+/* Modal styles */
+.modal-content {
+    background-color: #f8f9fa; /* Set background color for modal content */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    background-color: #007bff; /* Set background color for modal header */
+    color: #fff; /* Set text color for modal header */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.modal-title {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.modal-body,
+.modal-footer {
+    padding: 15px;
+}
+
+.weather-playlist {
+    font-family: Arial, sans-serif; /* Upgrade font to Arial or any preferred font */
+    padding: 20px; /* Add padding for indentation */
+    text-align: center; /* Center align the content */
+}
+
+.weather-playlist-heading {
+    font-size: 24px; /* Increase font size for the heading */
+    color: #333; /* Change font color */
+}
+
+.weather-playlist-subheading {
+    font-size: 20px; /* Adjust font size for subheading */
+    margin-top: 20px; /* Add margin for separation */
+}
+
+.weather-playlist-button {
+    margin-top: 20px; /* Add margin for spacing */
+    padding: 10px 20px; /* Add padding to the button */
+    font-size: 18px; /* Adjust font size */
+    border-radius: 5px; /* Add border radius for button */
+}

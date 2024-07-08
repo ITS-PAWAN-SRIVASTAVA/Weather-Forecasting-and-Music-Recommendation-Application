@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <title>WeatherWiseHub</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">WeatherWiseHub</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container text-center">
+                <form method="post" action="/weather">
+                    <div class="form-group">
+                        <label for="city">Enter City:</label>
+                        <input type="text" class="form-control short-bar" id="city" name="city" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary custom-button">Get Result</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:if="${location}">
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="location-section border">
+                    <h2>Location:</h2>
+                    <p th:text="'Name: ' + ${location.name}"></p>
+                    <p th:text="'Country: ' + ${location.country}"></p>
+                    <p th:text="'Latitude: ' + ${location.latitude}"></p>
+                    <p th:text="'Longitude: ' + ${location.longitude}"></p>
+                    <p>Local Time: <span th:text="${localTime}"></span></p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="current-section border">
+                    <div th:if="${currentWeather}">
+                        <h2>Current Weather:</h2>
+                        <p th:text="'Temperature: ' + ${currentWeather.temperature} + '°C'"></p>
+                        <p th:text="'Feels Like: ' + ${currentWeather.feels_like} + '°C'"></p>
+                        <p th:text="'Min Temperature: ' + ${currentWeather.min_temp} + '°C'"></p>
+                        <p th:text="'Max Temperature: ' + ${currentWeather.max_temp} + '°C'"></p>
+                        <p th:text="'Pressure: ' + ${currentWeather.pressure} + ' hPa'"></p>
+                        <p th:text="'Humidity: ' + ${currentWeather.humidity} + '%'"></p>
+                        <p th:text="'Condition: ' + ${currentWeather.condition}"></p>
+                        <p th:text="'Description: ' + ${currentWeather.description}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add AQI, Particles Information, and Suggestion section -->
+    <div th:if="${airQuality}">
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="aqi-particles-section border">
+                    <!-- AQI Section -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="aqi-section border">
+                                <h3>Air Quality Index (AQI):</h3>
+                                <p>Coord: <span th:text="${airQuality.coord.lon}"></span>, <span th:text="${airQuality.coord.lat}"></span></p>
+                                <p>AQI: <span th:text="${airQuality.aqi}"></span></p>
+                                <!-- Add suggestion button beside AQI button -->
+                                <button id="suggestionBtn" type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#suggestionModal">
+                                    Suggestions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Particle Information Section -->
+                    <div class="particles-section border mt-4">
+                        <h3>Particles Information:</h3>
+                        <!-- Add button to show air quality scale -->
+                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#airQualityScaleModal">
+                            Air Quality Scale
+                        </button>
+                        <ul>
+                            <li th:each="particle : ${airQuality.particles}">
+                                <strong th:text="${particle.key}"></strong>:
+                                <ul>
+                                    <li>
+                                        <span th:text="${particle.value.index}"></span> µg/m³ -
+                                        <span th:text="${particle.value.index > 200} ? 'unhealthy' : (${particle.value.index > 100} ? 'moderate' : 'healthy')"></span>
+                                        <span th:text="${particle.value.health_concern}"></span> -
+                                        <span th:text="${particle.value.description}"></span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Modal for suggestions -->
+                    <div class="modal fade" id="suggestionModal" tabindex="-1" role="dialog" aria-labelledby="suggestionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="suggestionModalLabel">Suggestions</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="suggestionContent"></div> <!-- This is where the suggestion content will be displayed -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Modal for air quality scale -->
+                    <div class="modal fade" id="airQualityScaleModal" tabindex="-1" role="dialog" aria-labelledby="airQualityScaleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="airQualityScaleModalLabel">Air Quality Scale</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="air-quality-scale mt-4 border">
+                                        <h3>Excellent</h3>
+                                        <p>0 - 19</p>
+                                        <p>The air quality is ideal for most individuals; enjoy your normal outdoor activities.</p>
+
+                                        <h3>Fair</h3>
+                                        <p>20 - 49</p>
+                                        <p>The air quality is generally acceptable for most individuals. However, sensitive groups may experience minor to moderate symptoms from long-term exposure.</p>
+
+                                        <h3>Poor</h3>
+                                        <p>50 - 99</p>
+                                        <p>The air has reached a high level of pollution and is unhealthy for sensitive groups. Reduce time spent outside if you are feeling symptoms such as difficulty breathing or throat irritation.</p>
+
+                                        <h3>Unhealthy</h3>
+                                        <p>100 - 149</p>
+                                        <p>Health effects can be immediately felt by sensitive groups. Healthy individuals may experience difficulty breathing and throat irritation with prolonged exposure. Limit outdoor activity.</p>
+
+                                        <h3>Very Unhealthy</h3>
+                                        <p>150 - 249</p>
+                                        <p>Health effects will be immediately felt by sensitive groups and should avoid outdoor activity. Healthy individuals are likely to experience difficulty breathing and throat irritation; consider staying indoors and rescheduling outdoor activities.</p>
+
+                                        <h3>Dangerous</h3>
+                                        <p>250+</p>
+                                        <p>Any exposure to the air, even for a few minutes, can lead to serious health effects on everybody. Avoid outdoor activities.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <h2>Air Quality Index Standard Marking levels :</h2>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Qualitative name</th>
+                                                    <th>Index</th>
+                                                    <th>SO2</th>
+                                                    <th>NO2</th>
+                                                    <th>PM10</th>
+                                                    <th>PM2.5</th>
+                                                    <th>O3</th>
+                                                    <th>CO</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Good</td>
+                                                    <td>1</td>
+                                                    <td>[0; 20)</td>
+                                                    <td>[0; 40)</td>
+                                                    <td>[0; 20)</td>
+                                                    <td>[0; 10)</td>
+                                                    <td>[0; 60)</td>
+                                                    <td>[0; 4400)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fair</td>
+                                                    <td>2</td>
+                                                    <td>[20; 80)</td>
+                                                    <td>[40; 70)</td>
+                                                    <td>[20; 50)</td>
+                                                    <td>[10; 25)</td>
+                                                    <td>[60; 100)</td>
+                                                    <td>[4400; 9400)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Moderate</td>
+                                                    <td>3</td>
+                                                    <td>[80; 250)</td>
+                                                    <td>[70; 150)</td>
+                                                    <td>[50; 100)</td>
+                                                    <td>[25; 50)</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Poor</td>
+                                                    <td>4</td>
+                                                    <td>[250; 350)</td>
+                                                    <td>[150; 200)</td>
+                                                    <td>[100; 200)</td>
+                                                    <td>[50; 75)</td>
+                                                    <td>[140; 180)</td>
+                                                    <td>[12400; 15400)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Very Poor</td>
+                                                    <td>5</td>
+                                                    <td>⩾350</td>
+                                                    <td>⩾200</td>
+                                                    <td>⩾200</td>
+                                                    <td>⩾75</td>
+                                                    <td>⩾180</td>
+                                                    <td>⩾15400</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${hourlyForecast}">
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="forecast-section border">
+                    <h2 class="bold-section">Hourly Forecast:</h2>
+                    <div class="row">
+                        <div th:each="forecast : ${hourlyForecast}" class="col-md-3">
+                            <p>Formatted Time: <span th:text="${forecast.formattedTime}"></span></p>
+                            <p th:text="'Temperature: ' + ${forecast.temperature} + '°C'"></p>
+                            <p th:text="'Condition: ' + ${forecast.condition}"></p>
+                            <p th:text="'Description: ' + ${forecast.description}"></p>
+                            <img th:src="@{/icons/{icon}.png(icon=${forecast.icon})}" th:alt="${forecast.condition}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${playlistUrl}" class="weather-playlist">
+        <h1 class="text-center mb-4 weather-playlist-heading">🎵 WeatherWiseHub recommends songs for this lovely weather</h1>
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <h2 class="weather-playlist-subheading">Current Weather Playlist</h2>
+                <a th:href="${playlistUrl}" class="btn btn-success weather-playlist-button" target="_blank">Listen on Spotify</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Suggestion button click event handler
+        $('#suggestionBtn').click(function () {
+            // Fetch AQI value
+            var aqi = parseInt($('#aqi').text());
+
+            // Fetch suggestions from JSON
+            $.getJSON('D:/Software/Software Folders/WeatherWeb/src/main/resources/air_quality_data.json', function (data) {
+                var suggestions = data.suggestions[aqi];
+
+                // Populate modal with suggestion content
+                if (suggestions) {
+                    var modalContent = '<h3>Category: ' + suggestions.Category + '</h3>';
+                    modalContent += '<p>Outdoor Activities: ' + suggestions.Recommendations.OutdoorActivities + '</p>';
+                    modalContent += '<p>Health Effects: ' + suggestions.Recommendations.HealthEffects + '</p>';
+                    modalContent += '<p>Clothing Recommendations: ' + suggestions.Recommendations.ClothingRecommendations + '</p>';
+                    modalContent += '<p>Air Quality Solutions: ' + suggestions.Recommendations.AirQualitySolutions + '</p>';
+
+                    // Add outdoor activity details if available
+                    if (suggestions.Recommendations.OutdoorActivitiesDetails) {
+                        modalContent += '<h4>Outdoor Activities Details:</h4>';
+                        modalContent += '<ul>';
+                        suggestions.Recommendations.OutdoorActivitiesDetails.forEach(function (activity) {
+                            modalContent += '<li>' + activity + '</li>';
+                        });
+                        modalContent += '</ul>';
+                    }
+
+                    $('#suggestionContent').html(modalContent);
+                } else {
+                    $('#suggestionContent').html('<p>No suggestions available for the current AQI level.</p>');
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

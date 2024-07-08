@@ -1,0 +1,81 @@
+{
+  "suggestions": {
+    "1": {
+      "AQI": 1,
+      "Category": "Good",
+      "Recommendations": {
+        "OutdoorActivities": "Enjoy normal outdoor activities",
+        "AirQualitySolutions": "No specific solutions needed",
+        "HealthEffects": "Minor to moderate health effects for sensitive groups",
+        "OutdoorActivitiesDetails": [
+          "Playing",
+          "Touring",
+          "Cycling",
+          "Running",
+          "Fishing",
+          "Going to the beach"
+        ],
+        "ClothingRecommendations": "Wear comfortable and breathable clothing suitable for the weather."
+      }
+    },
+    "2": {
+      "AQI": 2,
+      "Category": "Fair",
+      "Recommendations": {
+        "OutdoorActivities": "Outdoor activities with some precautions",
+        "AirQualitySolutions": "No specific solutions needed",
+        "HealthEffects": "Minor health effects for very few people who are unusually sensitive",
+        "OutdoorActivitiesDetails": [
+          "Light exercises",
+          "Picnics in open areas"
+        ],
+        "ClothingRecommendations": "Wear comfortable clothing with some protection, like a hat and sunglasses."
+      }
+    },
+    "3": {
+      "AQI": 3,
+      "Category": "Moderate",
+      "Recommendations": {
+        "OutdoorActivities": "Moderate outdoor activities with breaks",
+        "AirQualitySolutions": "Consider reducing prolonged or heavy exertion",
+        "HealthEffects": "Minor health effects for sensitive people, but members of sensitive groups may experience more serious health effects",
+        "OutdoorActivitiesDetails": [
+          "Walking",
+          "Short outdoor exercises",
+          "Gardening",
+          "Outdoor yoga"
+        ],
+        "ClothingRecommendations": "Wear comfortable clothing and take breaks during outdoor activities."
+      }
+    },
+    "4": {
+      "AQI": 4,
+      "Category": "Poor",
+      "Recommendations": {
+        "OutdoorActivities": "Limit outdoor exposure",
+        "AirQualitySolutions": "Consider using public transportation instead of driving",
+        "HealthEffects": "Health alert: everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects",
+        "OutdoorActivitiesDetails": [
+          "Indoor activities",
+          "Use public transportation instead of driving"
+        ],
+        "ClothingRecommendations": "Wear clothing that covers more skin and consider wearing a mask outdoors.",
+        "HealthRecommendations": "Stay hydrated, monitor respiratory symptoms, and seek medical attention if necessary."
+      }
+    },
+    "5": {
+      "AQI": 5,
+      "Category": "Very Poor",
+      "Recommendations": {
+        "OutdoorActivities": "Avoid outdoor exposure as much as possible",
+        "AirQualitySolutions": "Consider using public transportation or carpooling",
+        "HealthEffects": "Health warnings of emergency conditions; the entire population is likely to be affected",
+        "OutdoorActivitiesDetails": [
+          "Indoor activities only"
+        ],
+        "ClothingRecommendations": "Wear protective clothing, including masks, if going outdoors is absolutely necessary.",
+        "EmergencyResponse": "Follow local emergency guidelines. Contact health services if experiencing severe health issues. Create a safe indoor environment with air purifiers if possible."
+      }
+    }
+  }
+}
